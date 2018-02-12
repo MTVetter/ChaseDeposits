@@ -208,3 +208,5 @@ function calcPropRadius(attValue) {
 
     return radius;
 };
+
+$(document).ready(createMap);
