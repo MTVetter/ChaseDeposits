@@ -36,6 +36,27 @@ function getData(map){
     });
 };
 
+function processData(data){
+    //empty array to hold attributes
+    var attributes = [];
+
+    //properties of the first feature in the dataset
+    var properties = data.features[0].properties;
+
+    //push each attribute name into attributes array
+    for (var attribute in properties){
+        //only take attributes with population values
+        if (attribute.indexOf("Deposits") > -1){
+            attributes.push(attribute);
+        };
+    };
+
+    //check result
+    console.log(attributes);
+
+    return attributes
+}
+
 //Add circle markers to the map
 function createPropSymbols(data, map, attributes){
     //create Leaflet geoJSON layer and add it to the map
@@ -200,7 +221,7 @@ function updateLegend(map, attribute){
 //calculate the radius of each proportional symbol
 function calcPropRadius(attValue) {
     //scale factor to adjust symbol size evenly
-    var scaleFactor = 50;
+    var scaleFactor = 1;
     //area based on attribute value and scale factor
     var area = attValue * scaleFactor;
     //radius calculated based on area
