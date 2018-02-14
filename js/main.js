@@ -78,7 +78,7 @@ function createSlider(map, attributes){
         onAdd: function(map){
             //create the container div
             var slider = L.DomUtil.create("div", "range-slider-container");
-            $(slider).append('<input class="range-slider" type="range" max=7 min=0 step=1 value=0>');
+            $(slider).append('<input class="range-slider" type="range" max=6 min=0 step=1 value=0>');
 
             $(slider).append('<button class="skip" id="reverse" title="Reverse">Reverse</button>');
             $(slider).append('<button class="skip" id="forward" title="Forward">Forward</button>');
@@ -89,9 +89,9 @@ function createSlider(map, attributes){
             });
 
             //Elminate the map drag when dragging mouse
-            $(slider).on("mousedown", function(){
-                map.dragging.disable();
-            });
+            // $(slider).on("mousedown", function(){
+            //     map.dragging.disable();
+            // });
             return slider;
         }
     });
