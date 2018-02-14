@@ -133,10 +133,15 @@ function createSlider(map, attributes){
 function updatePropSymbols(map, attribute){
     map.eachLayer(function(layer){
         if (layer.feature && layer.feature.properties[attribute]){
-            //create the popup
-            var popup = new Popup(attribute, layer);
+            //Access the feature's properties
+            var props = layer.feature.properties;
 
-            popup.bindToLayer();
+            //Update the feature's radius
+            var radius = calcPropRadius(props[attribute]);
+            layer.setRadius(radius);
+            
+            //create the popup
+            createPopUp(properties, attribute, layer, radius);
         };
     });
 };
@@ -221,7 +226,7 @@ function updateLegend(map, attribute){
 //calculate the radius of each proportional symbol
 function calcPropRadius(attValue) {
     //scale factor to adjust symbol size evenly
-    var scaleFactor = 1;
+    var scaleFactor = 50;
     //area based on attribute value and scale factor
     var area = attValue * scaleFactor;
     //radius calculated based on area
