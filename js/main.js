@@ -111,11 +111,11 @@ function createSlider(map, attributes){
         if ($(this).attr("id") == "forward"){
             index++;
             //If click past last attribute wrap around to first
-            index = index > 7 ? 0 : index;
+            index = index > 6 ? 0 : index;
         } else if ($(this).attr("id") == "reverse"){
             index--;
             //If click past first attribute wrap around to last
-            index = index < 0 ? 7 : index;
+            index = index < 0 ? 6 : index;
         };
 
         //Update the slide
@@ -203,7 +203,7 @@ function createPopUp(properties, attribute, layer, radius){
 function createTemporalLegend(map, attributes){
     var LegendControl = L.Control.extend({
         options: {
-            position: "bottomright"
+            position: "topright"
         },
 
         onAdd: function(map){
@@ -218,7 +218,7 @@ function createTemporalLegend(map, attributes){
 
 //Create a function to update the legend
 function updateLegend(map, attribute){
-    var year = attribute.split("_")[2];
+    var year = attribute.split("_")[1];
     var content = "Year: " + year;
     $(".timestamp-container").text(content);
 };
