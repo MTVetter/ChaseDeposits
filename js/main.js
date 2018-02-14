@@ -55,7 +55,7 @@ function processData(data){
     console.log(attributes);
 
     return attributes
-}
+};
 
 //Add circle markers to the map
 function createPropSymbols(data, map, attributes){
