@@ -142,6 +142,7 @@ function updatePropSymbols(map, attribute){
 
             //create the popup
             createPopUp(props, attribute, layer, radius);
+            updateLegend(map, attribute);
         };
     });
 };
@@ -203,24 +204,100 @@ function createPopUp(properties, attribute, layer, radius){
 function createTemporalLegend(map, attributes){
     var LegendControl = L.Control.extend({
         options: {
-            position: "topright"
+            position: "bottomright"
         },
 
         onAdd: function(map){
             var timestamp = L.DomUtil.create("div", "timestamp-container");
             $(timestamp).append('<div id="timestamp-container">');
+
+            //Start attribute legend svg string
+            var svg = '<svg id="attribute-legend" width="160px" height="60px">';
+
+            //Create an array of circle names to base loop on
+            var circles = {
+                max: 20,
+                mean: 40,
+                min: 60
+            };
+
+            //Loop to add each circle and text to svg string
+            for (var circle in circles){
+                svg += '<circle class="legend-circle" id="' + circles +
+                '"fill="#117ACA" fill-opacity="0.8" stroke="#000000" cx="30"/>';
+
+                //Add text
+                svg += '<text id="' + circles + '-text" x="65" y="' + circles[circle] + '"></text>';
+            };
+
+            //Close the svg string
+            svg += "</svg>";
+
+            //Add the attribute legend svg to the container
+            $(timestamp).append(svg);
             return timestamp;
         }
     });
     map.addControl(new LegendControl());
-    updateLegend(map, attributes);
+    updateLegend(map, attributes[0]);
 };
 
 //Create a function to update the legend
 function updateLegend(map, attribute){
     var year = attribute.split("_")[1];
-    var content = "Year: " + year;
+    var content = "Number of Deposits in " + year;
     $(".timestamp-container").text(content);
+
+    //Get the max, mean, and min values as an object
+    var circleValues = getCircleValues(map, attribute);
+
+    for (var key in circleValues){
+        //Get the radius
+        var radius = calcPropRadius(circleValues[key]);
+
+        //Assign the cy and r attributes
+        $("#"+key).attr({
+            cy: 59 - radius,
+            r: radius
+        });
+
+        //Add legend text
+        $("#"+key+'-text').text(Math.round(circleValues[key]*100)/100 + " thousand");
+    };
+};
+
+//Calculate the max, mean, and min values for a given attribute
+function getCircleValues(map, attribute){
+    //start with min at highest possible and max at lowest possible number
+    var min = Infinity,
+        max = -Infinity;
+
+    map.eachLayer(function(layer){
+        //get the attribute value
+        if (layer.feature){
+            var attributeValue = Number(layer.feature.properties[attribute]);
+
+            //test for min
+            if (attributeValue < min){
+                min = attributeValue;
+            };
+
+            //test for max
+            if (attributeValue > max){
+                max = attributeValue;
+            };
+        };
+    });
+
+    //set mean
+    var mean = (max + min) / 2;
+
+    //return values as an object
+    return {
+        max: max,
+        mean: mean,
+        min: min
+    };
 };
 
 //calculate the radius of each proportional symbol
