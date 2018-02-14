@@ -100,8 +100,8 @@ function createSlider(map, attributes){
     map.addControl(new SequenceControl());
 
     //Change the buttons to have pictures
-    $("#reverse").html('<img src="img/left.png">');
-    $("#forward").html('<img src="img/right.png">');
+    $("#reverse").html('<img src="img/reverse.png">');
+    $("#forward").html('<img src="img/forward.png">');
 
     //Add listeners for the buttons
     $(".skip").click(function(){
