@@ -139,9 +139,9 @@ function updatePropSymbols(map, attribute){
             //Update the feature's radius
             var radius = calcPropRadius(props[attribute]);
             layer.setRadius(radius);
-            
+
             //create the popup
-            createPopUp(properties, attribute, layer, radius);
+            createPopUp(props, attribute, layer, radius);
         };
     });
 };
@@ -187,11 +187,11 @@ function pointToLayer(feature, latlng, attributes){
 
 //Create popup content
 function createPopUp(properties, attribute, layer, radius){
-    var popupContent = " ";
+    var popupContent = "<p><b>City:</b> " + properties.City + "</p>";
     var year = attribute.split("_")[1];
 
     //Add the content to popupContent
-    popupContent += "<p><b>City:</b> " + properties.City + "</p><p><b>Number of deposits in " + year + ":</b> " + properties[attribute] + "</p>";
+    popupContent += "<p><b>Number of deposits in " + year + ":</b> " + properties[attribute] + " thousand</p>";
 
     //Bind the popup to the layer and create an offset
     layer.bindPopup(popupContent, {
