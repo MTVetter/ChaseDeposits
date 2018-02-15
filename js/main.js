@@ -204,7 +204,7 @@ function createPopUp(properties, attribute, layer, radius){
 function createTemporalLegend(map, attributes){
     var LegendControl = L.Control.extend({
         options: {
-            position: "topright"
+            position: "bottomright"
         },
 
         onAdd: function(map){
