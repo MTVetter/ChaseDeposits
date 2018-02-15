@@ -239,7 +239,7 @@ function createTemporalLegend(map, attributes){
         }
     });
     map.addControl(new LegendControl());
-    updateLegend(map, attributes[0]);
+    updateLegend(map, attributes);
 };
 
 //Create a function to update the legend
