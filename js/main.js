@@ -209,10 +209,10 @@ function createTemporalLegend(map, attributes){
 
         onAdd: function(map){
             var timestamp = L.DomUtil.create("div", "timestamp-container");
-            $(timestamp).append('<div id="timestamp-container">');
+            $(timestamp).append('<div id="temporal-legend">');
 
             //Start attribute legend svg string
-            var svg = '<svg id="attribute-legend" width="160px" height="60px">';
+            var svg = '<svg id="attribute-legend" width="60px" height="60px">';
 
             //Create an array of circle names to base loop on
             var circles = {
@@ -223,11 +223,11 @@ function createTemporalLegend(map, attributes){
 
             //Loop to add each circle and text to svg string
             for (var circle in circles){
-                svg += '<circle class="legend-circle" id="' + circles +
+                svg += '<circle class="legend-circle" id="' + circle +
                 '"fill="#117ACA" fill-opacity="0.8" stroke="#000000" cx="30"/>';
 
                 //Add text
-                svg += '<text id="' + circles + '-text" x="65" y="' + circles[circle] + '"></text>';
+                svg += '<text id="' + circle + '-text" x="65" y="' + circles[circle] + '"></text>';
             };
 
             //Close the svg string
@@ -246,7 +246,7 @@ function createTemporalLegend(map, attributes){
 function updateLegend(map, attribute){
     var year = attribute.split("_")[1];
     var content = "Number of Deposits in " + year;
-    $(".timestamp-container").text(content);
+    $("#temporal-legend").text(content);
 
     //Get the max, mean, and min values as an object
     var circleValues = getCircleValues(map, attribute);
@@ -303,7 +303,7 @@ function getCircleValues(map, attribute){
 //calculate the radius of each proportional symbol
 function calcPropRadius(attValue) {
     //scale factor to adjust symbol size evenly
-    var scaleFactor = 50;
+    var scaleFactor = 10;
     //area based on attribute value and scale factor
     var area = attValue * scaleFactor;
     //radius calculated based on area
