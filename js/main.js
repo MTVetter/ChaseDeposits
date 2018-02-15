@@ -245,8 +245,9 @@ function createTemporalLegend(map, attributes){
 //Create a function to update the legend
 function updateLegend(map, attribute){
     var year = attribute.split("_")[1];
-    var content = "Number of Deposits in " + year;
+    var content = "Deposits in " + year;
     $("#temporal-legend").text(content);
+    console.log(content);
 
     //Get the max, mean, and min values as an object
     var circleValues = getCircleValues(map, attribute);
