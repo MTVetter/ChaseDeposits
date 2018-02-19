@@ -2,19 +2,49 @@
 
 //Add Leaflet map
 function createMap(){
-    //create the map
-    var map = L.map("map",{
-        center: [40, -98.5],
-        zoom: 4
-    });
+    //Set up the initial location of the map
+    var initialLocation = [40, -98.5];
 
-    //add OSM base tilelayer
-    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
-        attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ'
-    }).addTo(map);
+    //Set up the initial zoom of the map
+    var initialZoom = 4;
+
+    //create the map
+    var map = L.map("map",{zoomControl: false}).setView(initialLocation, initialZoom);
+
+    //Add the home button with the zoom in and zoom out buttons
+    var zoomHome = L.Control.zoomHome();
+    zoomHome.addTo(map);
 
     //call getData function
     getData(map);
+
+    //add ESRI base tilelayer
+    var esri = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ'
+    }).addTo(map);
+
+    //Add OSM base tilelayer
+    var osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+    });
+
+    //Create the base maps
+    var baseLayers = {
+        "Grayscale": esri,
+        "Streets": osm
+    };
+
+    //Add the base maps to the map so the user can decide
+    L.control.layers(baseLayers).addTo(map);
+
+    //Create a popup for the info button
+    var infoPopup = L.popup({className: 'info'}).setContent("<p><b>Chase Deposits 2010-2016</b></p><p>This map shows the average number of deposits per city</p>");
+
+    //Create an info button so the user can get information about the map
+    L.easyButton('<span class="fas fa-info fa-lg"</span>', function(btn, map){
+        infoPopup.setLatLng(map.getCenter()).openOn(map);
+    }).addTo(map);
+
 };
 
 //Use AJAX to load desposit geoJSON data
@@ -177,9 +207,11 @@ function pointToLayer(feature, latlng, attributes){
     layer.on({
         mouseover: function(){
             this.openPopup();
+            this.setStyle({fillColor: 'yellow', color: 'yellow'});
         },
         mouseout: function(){
             this.closePopup();
+            this.setStyle({fillColor: "#117ACA", color: "#000000"});
         }
     });
 
@@ -192,7 +224,7 @@ function createPopUp(properties, attribute, layer, radius){
     var year = attribute.split("_")[1];
 
     //Add the content to popupContent
-    popupContent += "<p><b>Number of deposits in " + year + ":</b> " + properties[attribute] + " thousand</p>";
+    popupContent += "<b>Number of deposits in " + year + ":</b> " + properties[attribute] + " thousand";
 
     //Bind the popup to the layer and create an offset
     layer.bindPopup(popupContent, {
@@ -212,7 +244,7 @@ function createTemporalLegend(map, attributes){
             $(timestamp).append('<div id="temporal-legend">');
 
             //Start attribute legend svg string
-            var svg = '<svg id="attribute-legend" width="60px" height="60px">';
+            var svg = '<svg id="attribute-legend" width="195px" height="140px">';
 
             //Create an array of circle names to base loop on
             var circles = {
@@ -224,10 +256,10 @@ function createTemporalLegend(map, attributes){
             //Loop to add each circle and text to svg string
             for (var circle in circles){
                 svg += '<circle class="legend-circle" id="' + circle +
-                '"fill="#117ACA" fill-opacity="0.8" stroke="#000000" cx="30"/>';
+                '"fill="#117ACA" fill-opacity="0.8" stroke="#000000" cx="40"/>';
 
                 //Add text
-                svg += '<text id="' + circle + '-text" x="65" y="' + circles[circle] + '"></text>';
+                svg += '<text id="' + circle + '-text" x="80" y="' + circles[circle] + '"></text>';
             };
 
             //Close the svg string
@@ -247,7 +279,6 @@ function updateLegend(map, attribute){
     var year = attribute.split("_")[1];
     var content = "Deposits in " + year;
     $("#temporal-legend").text(content);
-    console.log(content);
 
     //Get the max, mean, and min values as an object
     var circleValues = getCircleValues(map, attribute);
@@ -258,7 +289,7 @@ function updateLegend(map, attribute){
 
         //Assign the cy and r attributes
         $("#"+key).attr({
-            cy: 59 - radius,
+            cy: 75 - radius,
             r: radius
         });
 
