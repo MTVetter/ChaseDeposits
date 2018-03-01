@@ -45,6 +45,10 @@ function createMap(){
         infoPopup.setLatLng(map.getCenter()).openOn(map);
     }).addTo(map);
 
+    $(document).click(function (){
+        $("#welcomeWrapper").hide();
+    });
+
 };
 
 //Use AJAX to load desposit geoJSON data
@@ -244,22 +248,22 @@ function createTemporalLegend(map, attributes){
             $(timestamp).append('<div id="temporal-legend">');
 
             //Start attribute legend svg string
-            var svg = '<svg id="attribute-legend" width="195px" height="140px">';
+            var svg = '<svg id="attribute-legend" width="220px" height="100px">';
 
             //Create an array of circle names to base loop on
             var circles = {
                 max: 20,
-                mean: 40,
-                min: 60
+                mean: 49,
+                min: 80
             };
 
             //Loop to add each circle and text to svg string
             for (var circle in circles){
                 svg += '<circle class="legend-circle" id="' + circle +
-                '"fill="#117ACA" fill-opacity="0.8" stroke="#000000" cx="40"/>';
+                '"fill="#117ACA" fill-opacity="0.8" stroke="#000000" cx="45"/>';
 
                 //Add text
-                svg += '<text id="' + circle + '-text" x="80" y="' + circles[circle] + '"></text>';
+                svg += '<text id="' + circle + '-text" x="92" y="' + circles[circle] + '"></text>';
             };
 
             //Close the svg string
@@ -289,7 +293,7 @@ function updateLegend(map, attribute){
 
         //Assign the cy and r attributes
         $("#"+key).attr({
-            cy: 75 - radius,
+            cy: 90 - radius,
             r: radius
         });
 
@@ -335,7 +339,7 @@ function getCircleValues(map, attribute){
 //calculate the radius of each proportional symbol
 function calcPropRadius(attValue) {
     //scale factor to adjust symbol size evenly
-    var scaleFactor = 10;
+    var scaleFactor = 5;
     //area based on attribute value and scale factor
     var area = attValue * scaleFactor;
     //radius calculated based on area

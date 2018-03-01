@@ -11,6 +11,7 @@
 		<link rel="stylesheet" href="css/leaflet-search.css">
 		<link rel="stylesheet" href="css/easy-button.css">
 		<link rel="stylesheet" href="css/leaflet.zoomhome.css">
+		<link rel="stylesheet" href="css/leaflet-tag-filter-button.css">
 		<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
 		<!--[if IE<9]>
 			<link rel="stylesheet" href="css/style.ie.css">
@@ -22,13 +23,25 @@
 			
 		<!--you can also use this space for internal scripts or stylesheets;
 		place these within <script> or <style> tags-->
-		<div id="map"></div>
+		<div id="wrapper">
+			<div class="leaflet-top leaflet-left" id="welcomeWrapper">
+				<div class="info leaflet-control" id="welcomePanel">
+					<div id="welcome">
+						<img src="img/chase.png" style=width:150px;height:100px;</img>
+						<h2>Number of deposits to Chase per city</h2>
+						<p>Explore and compare the number of deposits to Chase banks per city from 2010 - 2016.<br><strong>Click anywhere to get started.</strong></p>
+					</div>
+				</div>
+			</div>
+			<div id="map"></div>
+		</div>
 		<!--put your external script links here-->
 		<script type="text/javascript" src="lib/leaflet/leaflet-src.js"></script>
 		<script type="text/javascript" src="lib/jquery-3.3.1.js"></script>
 		<script type="text/javascript" src="js/leaflet-search.js"></script>
 		<script type="text/javascript" src="js/easy-button.js"></script>
 		<script type="text/javascript" src="js/leaflet.zoomhome.min.js"></script>
+		<script type="text/javascript" src="js/leaflet-tag-filter-button.js"></script>
 		<script type="text/javascript" src="js/main.js"></script>
 	</body>
 </html>
