@@ -38,8 +38,12 @@ function createMap(){
     L.control.layers(baseLayers).addTo(map);
 
     //Create a popup for the info button
-    var infoPopup = L.popup({className: 'info'}).setContent("<p><b>Chase Deposits 2010-2016</b></p><p>This map shows the average number of deposits per city</p>");
-
+    var infoPopup = L.popup({className: 'help'}).setContent("<p>Use the home button to return the initial extent of the map</p>" +
+    "<p>In the upper right hand corner, you can change the type of basemap being displayed</p>" +
+    "<p>Click on the arrow buttons to display the number of deposits for different years</p>" +
+    "<p>Source: https://www.kaggle.com/chasebank/bank-deposits/data</p>" +
+    "<p><a href='data/ChaseDeposits.csv' download>Click to download data source</a></p>");
+    
     //Create an info button so the user can get information about the map
     L.easyButton('<span class="fas fa-info fa-lg"</span>', function(btn, map){
         infoPopup.setLatLng(map.getCenter()).openOn(map);

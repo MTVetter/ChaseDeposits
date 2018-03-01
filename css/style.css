@@ -28,10 +28,9 @@
     margin: 0.2px 0;
 }
 
-.info .leaflet-popup-content-wrapper{
-    background: blueviolet;
+.help .leaflet-popup-content-wrapper{
+    background: rgb(188, 179, 197);
     height: 250px;
-
 }
 
 .range-slider{
